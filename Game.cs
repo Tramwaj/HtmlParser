@@ -13,10 +13,10 @@ namespace ParseHTML
         public int AwayScore { get;}
         public int HomeScore { get;}
 
-        public Game(string awayTeam, string homeTeam, DateTime date, int awayScore, int homeScore) : this(awayTeam, homeTeam, date)
+        public Game(string awayTeam, string homeTeam, DateTime date, string awayScore, string homeScore) : this(awayTeam, homeTeam, date)
         {
-            AwayScore = awayScore;
-            HomeScore = homeScore;
+            AwayScore = Convert.ToInt32(awayScore);
+            HomeScore = Convert.ToInt32(homeScore);
             Finished = true;
         }
 
@@ -26,6 +26,15 @@ namespace ParseHTML
             HomeTeam = homeTeam;
             Date = date;
             Finished = false;
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.Append(AwayTeam).Append(" at ").Append(HomeTeam).Append(" - ");
+            if (Finished) sb.Append(AwayScore).Append(" : ").Append(HomeScore);
+            else sb.Append(" TO BE PLAYED");
+            return sb.ToString();
         }
     }
 }

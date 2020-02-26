@@ -17,37 +17,61 @@ namespace ParseHTML
 
             List<List<string>> table = doc.DocumentNode.SelectSingleNode("//table[@class='color-alt max-1']")
                         .Descendants("tr")
-                        .Skip(1)                        
+                        .Skip(1)
                         .Select(tr => tr.Elements("td")
-                        .Select(td => td.InnerText.Trim().Replace(System.Environment.NewLine,""))
+                        .Select(td => td.InnerText.Trim().Replace(System.Environment.NewLine, ""))
                         .ToList())
                         .ToList();
-            foreach (var item in table)
-            {
-                foreach (var item2 in item)
-                {
-                    var temp = item2.Trim().Split("\t");
-                    foreach (var bub in temp)
-                    {
-                        if (!string.IsNullOrWhiteSpace(bub))
-                        Console.WriteLine("item:" + bub.Replace("@ ",""));
-                    }
-                    Console.WriteLine("Pauza");
-                    //Console.WriteLine("item: "+item2);
-                }
-                Console.WriteLine();
-            }
-            //foreach (var list1 in table)
+            table = table.Skip(1).ToList();
+            //foreach (var item in table)
             //{
-            //    foreach (var list2 in list1)
+            //    foreach (var item2 in item)
             //    {
-            //        var item = list2.Trim().Split("\t").Where(;
-            //        item=item.Where(i=>!string.IsNullOrWhiteSpace(i))
+            //        var temp = item2
+            //            .Trim().Split("\t")
+            //            .Where(s => !string.IsNullOrWhiteSpace(s));
+            //        foreach (var bub in temp)
+            //        {
+            //            Console.WriteLine("item:" + bub.Replace("@ ", ""));
+            //        }
+            //        Console.WriteLine("Pauza");
             //    }
+            //    //Console.WriteLine("GRUBA PAUZA");
             //}
-            var s = DateTime.Parse("Feb 1, 2020");
-            Console.WriteLine(s.ToString());
+            var gameList = new List<Game>();
+            foreach (var list1 in table)
+            {
+                DateTime currentDate=DateTime.Now;
+                foreach (var list2 in list1)
+                {
+                    var gameData = list2
+                        .Trim().Split("\t")
+                        .Where(s => !string.IsNullOrWhiteSpace(s))
+                        .ToList();
+                    if (gameData.Count() == 1)
+                    {
+                        currentDate = DateTime.Parse(gameData[0]);
+                        //Console.WriteLine(currentDate.ToString());
+                    }
+                    if (gameData.Count() > 5) 
+                    {
+                        var homeTown = gameData.Last().Replace("at ", "");
+                        var (homeTeam, awayTeam) = gameData[0].Contains(homeTown) ?
+                            (gameData[0], gameData[3]) : (gameData[3], gameData[0]);
+
+                        gameList.Add(new Game(awayTeam,homeTeam,currentDate,gameData[1],gameData[4]));
+                    }
+                    if (gameData.Count == 3)
+                    {
+                        gameList.Add(new Game(gameData[0], gameData[1], currentDate));
+                    }
+                }
+            }
+            foreach (var game in gameList)
+            {
+                Console.WriteLine(game.ToString());
+            }
         }
-        
+
     }
 }

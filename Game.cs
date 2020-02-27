@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ParseHTML
 {
-    class Game
+    public class Game
     {
         public string AwayTeam { get;}
         public string HomeTeam { get;}
@@ -33,7 +33,8 @@ namespace ParseHTML
             var sb = new StringBuilder();
             sb.Append(AwayTeam).Append(" at ").Append(HomeTeam).Append(" - ");
             if (Finished) sb.Append(AwayScore).Append(" : ").Append(HomeScore);
-            else sb.Append(" TO BE PLAYED");
+            else sb.Append(" YET TO BE PLAYED");
+            sb.Append(" - ").Append(Date.ToShortDateString());
             return sb.ToString();
         }
     }

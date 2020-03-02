@@ -57,7 +57,7 @@ namespace ParseHTML
                     }
                     if (gameData.Count == 3)
                     {
-                        gameList.Add(new Game(gameData[0], gameData[1], currentDate));
+                        gameList.Add(new Game(gameData[0], gameData[1].Replace("@", "").Trim(), currentDate));
                     }
                 }
             }

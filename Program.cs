@@ -20,6 +20,7 @@ namespace ParseHTML
             //Remaining schedule toughness (current stats needed)
             var teamStats = new TeamStats(gameList);
             Console.WriteLine(teamStats.WinningPercentage("Los Angeles Lakers"));
+            Console.WriteLine(teamStats.GamesPlannedByTeam("Houston Rockets").Count());
             
             foreach (var team in 
                 gameList
@@ -27,7 +28,9 @@ namespace ParseHTML
                 .Select(x => x.HomeTeam)                
                 .Distinct())
             {
-                Console.WriteLine("{0}: {1}",team,teamStats.WinningPercentage(team).ToString("0.##"));
+                Console.Write("{0}: {1}",team,teamStats.WinningPercentage(team).ToString("0.##"));
+                Console.Write(" Schedule strength: {0}", teamStats.ScheduleDifficulty(team).ToString("0.###"));
+                Console.WriteLine();
             }
 
         }
